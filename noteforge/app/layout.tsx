@@ -1,50 +1,48 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
-import { ThemeProvider } from "@/components/providers/theme-provider";
+import { type PropsWithChildren } from "react";
+
 import { ConvexClientProvider } from "@/components/providers/convex-provider";
+import { ModalProvider } from "@/components/providers/modal-provider";
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import { ToasterProvider } from "@/components/providers/toaster-provider";
+import { siteConfig } from "@/config";
+import { EdgeStoreProvider } from "@/lib/edgestore";
+
+import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: "NoteForge",
-  description: "The connected workspace where better, faster work happens",
-  icons: {
-    icon: [
-      {
-        media: "(prefers-color-scheme: light)",
-        url: "/logo.svg",
-        href: "/logo.svg",
-      },
-      {
-        media: "(prefers-color-scheme: dark)",
-        url: "/logo-dark.svg",
-        href: "/logo-dark.svg",
-      }
-    ]
-  }
+export const metadata: Metadata = siteConfig;
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#1F1F1F" },
+    { media: "(prefers-color-scheme: light)", color: "#EFEFEF" },
+  ],
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
-        <ConvexClientProvider>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
-          storageKey="noteforge-theme-2"
+          storageKey="jotion-theme"
         >
-          {children}
+          <ConvexClientProvider>
+            <EdgeStoreProvider>
+              <ToasterProvider />
+              <ModalProvider />
+              {children}
+            </EdgeStoreProvider>
+          </ConvexClientProvider>
         </ThemeProvider>
-        </ConvexClientProvider>
       </body>
     </html>
   );
-}
+};
+export default RootLayout;
