@@ -19,7 +19,7 @@ export const SettingsModal = () => {
           <div className="flex flex-col gap-y-1">
             <Label>Appearance</Label>
             <span className="text-[0.8rem] text-muted-foreground">
-              Customize how Jotion looks on your device.
+              Customize how NoteForge looks on your device.
             </span>
           </div>
 
