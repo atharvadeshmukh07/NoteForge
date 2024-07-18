@@ -1,10 +1,16 @@
-"use client";
+'use client';
 
-import { BlockNoteEditor, useBlockNote, BlockNoteView } from "@blocknote/react";
-import { useTheme } from "next-themes";
-import { useEffect } from "react";
-import { useEdgeStore } from "@/lib/edgestore";
-import "@blocknote/core/style.css";
+import { useBlockNote, BlockNoteView } from '@blocknote/react';
+import { useTheme } from 'next-themes';
+import { useEffect } from 'react';
+import { useEdgeStore } from '@/lib/edgestore';
+import '@blocknote/core/style.css';
+
+// Define the BlockNoteEditor type based on your knowledge of the structure
+type BlockNoteEditor = {
+  topLevelBlocks: any[];
+  isEditable: boolean;
+};
 
 type EditorProps = {
   onChange: (value: string) => void;
@@ -25,16 +31,13 @@ const Editor = ({ onChange, initialContent, editable }: EditorProps) => {
   };
 
   const editor: BlockNoteEditor | undefined = useBlockNote({
-    initialContent: initialContent
-      ? JSON.parse(initialContent)
-      : undefined,
+    initialContent: initialContent ? JSON.parse(initialContent) : undefined,
     onEditorContentChange: (editor: BlockNoteEditor) => {
       if (!editable) return;
       onChange(JSON.stringify(editor.topLevelBlocks, null, 2));
     },
     uploadFile: handleUpload,
   });
-  
 
   useEffect(() => {
     if (editor) {
@@ -47,7 +50,7 @@ const Editor = ({ onChange, initialContent, editable }: EditorProps) => {
       <BlockNoteView
         editor={editor}
         editable={editable ?? true}
-        theme={resolvedTheme === "dark" ? "dark" : "light"}
+        theme={resolvedTheme === 'dark' ? 'dark' : 'light'}
       />
     </div>
   );
