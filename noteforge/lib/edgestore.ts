@@ -1,9 +1,11 @@
-"use client";
+'use client';
 
-import { type EdgeStoreRouter } from "../app/api/edgestore/[...edgestore]/route";
-import { createEdgeStoreProvider } from "@edgestore/react";
+import { type EdgeStoreRouter } from '../app/api/edgestore/[...edgestore]/route';
+import { createEdgeStoreProvider } from '@edgestore/react';
 
-const { EdgeStoreProvider, useEdgeStore } =
-  createEdgeStoreProvider<EdgeStoreRouter>();
+const { EdgeStoreProvider, useEdgeStore } = createEdgeStoreProvider() as {
+  EdgeStoreProvider: React.ComponentType<any>,
+  useEdgeStore: () => any
+} & EdgeStoreRouter;
 
 export { EdgeStoreProvider, useEdgeStore };
